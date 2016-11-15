@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+var download = require('download-git-repo');
+
+/**
+ * process.argv[1] 的路径是node 执行的执行文件的绝对路径
+ * process.cwd() 是当前node 命令执行的目录，如pwd
+ */
+
+download('xunull/dawan', process.cwd(), function(err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('dawan init success');
+    }
+});
