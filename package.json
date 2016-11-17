@@ -1,33 +1,37 @@
 {
-  "name": "dawan-cli",
-  "version": "0.0.3",
-  "description": "dawan cli",
-  "main": "index.js",
-  "bin": {
-    "dawan": "bin/dawan",
-    "dawan-init": "bin/dawan-init"
-  },
-  "dependencies": {
-    "chalk": "^1.1.3",
-    "commander": "^2.9.0",
-    "download-git-repo": "^0.2.1",
-    "inquirer": "^1.2.3"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xunull/dawan-cli.git"
-  },
-  "keywords": [
-    "dawan"
-  ],
-  "author": "xunull",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/xunull/dawan-cli/issues"
-  },
-  "homepage": "https://github.com/xunull/dawan-cli#readme"
+    "name": "dawan-cli",
+    "version": "0.0.3",
+    "description": "dawan cli",
+    "main": "index.js",
+    "bin": {
+        "dawan": "bin/dawan",
+        "dawan-init": "bin/dawan-init"
+    },
+    "dependencies": {
+        "chalk": "^1.1.3",
+        "commander": "^2.9.0",
+        "download-git-repo": "^0.2.1",
+        "inquirer": "^1.2.3"
+    },
+    "devDependencies": {
+        "eslint": "^3.10.2",
+        "eslint-config-airbnb": "^13.0.0",
+        "eslint-plugin-import": "^2.2.0"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/xunull/dawan-cli.git"
+    },
+    "keywords": [
+        "dawan"
+    ],
+    "author": "xunull",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/xunull/dawan-cli/issues"
+    },
+    "homepage": "https://github.com/xunull/dawan-cli#readme"
 }

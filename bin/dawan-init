@@ -4,67 +4,116 @@ var program = require('commander');
 var chalk = require('chalk');
 var inquirer = require('inquirer');
 var download = require('download-git-repo');
+var path = require('path');
 
 program
-    .usage('[project-name]');
+    .usage('project-name [targetFolder]');
 
-program.on('--help', function() {
+program.on('--help', function () {
     console.log('  Examples:')
     console.log()
-    console.log(chalk.gray(
-        '    # create a new project with an template'))
-    console.log('    $ dawan init xxx')
+    console.log(chalk.gray('    # create a new project with an official template'))
+    console.log('    $ dawan init test [a path]')
+    console.log()
+
 })
 
-inquirer.prompt([{
-    type: 'list',
-    name: 'core',
-    message: 'which do you like?express or koa?',
-    choices: ['express', 'koa'],
-    filter: function(val) {
-        return val.toLowerCase();
-    }
-}]).then(function(answers) {
-    console.log(answers);
-    if ('express' === answers.core) {
-        /**
-         * process.argv[1] 的路径是node 执行的执行文件的绝对路径
-         * process.cwd() 是当前node 命令执行的目录，如pwd
-         */
-
-        download('xunull/dawan', process.cwd(), function(err) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('dawan init success');
-            }
-        });
-    } else {
-        download('xunull/dawan-koa', process.cwd(), function(err) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('dawan init success');
-            }
-        });
-    }
-})
 
 /**
  * Help.
  */
-
 function help() {
     program.parse(process.argv)
-    if (program.args.length < 1) return program.help()
+    if (program.args.length === 0) return program.help()
 }
-// help()
+help()
 
 /**
- * Padding.
+ * 判断项目名是否合法
  */
+let projectName = program.args[0];
+if (projectName.startsWith('.') || projectName.startsWith('/')) {
+    console.log('工程名称不合法');
+    process.exit(1);
+}
 
-console.log();
-process.on('exit', function() {
+let targetFlag = 0
+let targetPath = process.cwd()
+if (program.args.length > 1) {
+    targetPath = path.resolve(process.cwd(), program.args[1]);
+
+    try {
+        fs.accessSync(targetPath, fs.constants.F_OK)
+        // 给定的目录冲突了
+        targetFlag = false
+    } catch (err) {
+
+    }
+} else {
+    // 在当前目录生成
+    targetFlag = true
+}
+
+if (0 !== targetFlag) {
+    inquirer.prompt([{
+        type: 'confirm',
+        message: targetFlag
+            ? 'Generate project in current directory?'
+            : 'Target directory exists. Continue?',
+        name: 'ok'
+    }]).then(function (answers) {
+        console.log(answers)
+        if (answers.ok) {
+            targetPath = path.resolve(targetPath, program.args[0])
+            bootstrap();
+        } else {
+            // 什么都不执行了
+        }
+    });
+} else {
+    targetPath = path.resolve(targetPath, program.args[0])
+    bootstrap();
+}
+
+function bootstrap() {
+
+    inquirer.prompt([{
+        type: 'list',
+        name: 'core',
+        message: 'which do you like?express or koa?',
+        choices: ['express', 'koa'],
+        filter: function (val) {
+            return val.toLowerCase();
+        }
+    }]).then(function (answers) {
+
+        if ('express' === answers.core) {
+            /**
+             * process.argv[1] 的路径是node 执行的执行文件的绝对路径
+             * process.cwd() 是当前node 命令执行的目录，如pwd
+             */
+
+            download('xunull/dawan', targetPath, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('dawan init success');
+                }
+            });
+        } else {
+            download('xunull/dawan-koa', targetPath, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('dawan init success');
+                }
+            });
+        }
+    })
+
+}
+
+
+process.on('exit', function () {
     console.log();
 })
