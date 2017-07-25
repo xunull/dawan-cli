@@ -100,6 +100,15 @@ function bootstrap() {
                     console.log('dawan init success');
                 }
             });
+        } else if ('koa-async' == answers.core) {
+            download('xunull/dawan-koa-async', targetPath, function(err) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log('dawan init success')
+                }
+            })
+            
         } else {
             download('xunull/dawan-koa', targetPath, function (err) {
                 if (err) {
