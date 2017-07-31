@@ -81,7 +81,7 @@ function bootstrap() {
         type: 'list',
         name: 'core',
         message: 'which do you like?express or koa?',
-        choices: ['express', 'koa'],
+        choices: ['express', 'koa-async', 'koa'],
         filter: function (val) {
             return val.toLowerCase();
         }
